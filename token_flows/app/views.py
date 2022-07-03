@@ -1,3 +1,4 @@
+from tracemalloc import start
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -28,6 +29,11 @@ balance_url = f"https://mainnet.infura.io/v3/{INFURA_TOKEN}"
 #     response = requests.request("POST", balance_url, data=payload)
 #     hex_value = json.loads(response.text)['result']
 #     return int(hex_value,16)/1e18
+def getBlockByTimestamp(start_timestamp,end_timestamp):
+    start_url = f"https://api.etherscan.io/api?module=block&action=getblocknumber&timestamp={start_timestamp}&apikey={API_TOKEN}"
+    end_url = f"https://api.etherscan.io/api?module=block&action=getblocknumber&timestamp={end_timestamp}&apikey={API_TOKEN}"
+    data = (requests.get(start_url).json()['result'],requests.get(end_url).json()['result'])
+    return data
 
 def confirmContractName(address):
     url = f"https://api.etherscan.io/api?module=contract&action=getsourcecode&address={address}&apikey={API_TOKEN}"
@@ -41,7 +47,7 @@ def findFirstChildren(address,limit):
     x = []
     for i in data['result'][0:limit]:
         contract = confirmContractName(address)
-        nextAddress = i['to']
+        nextAddress = i['from']
         tmpProcessed = {
             'name': nextAddress[0:6],
             'attributes': {
@@ -51,6 +57,7 @@ def findFirstChildren(address,limit):
             'destination': i['to'],
             'ContractName': contract,
             'fullname': nextAddress,
+            'blockNumber': i['blockNumber']
             # 'balance': balanceByAddress(address,i['blockNumber'])
             }
         }
@@ -58,8 +65,8 @@ def findFirstChildren(address,limit):
             x.append(tmpProcessed)
     return x
 
-def apiFunction(address = ADDRESS, tx=TX, afterBlock=0,processed=None, depth=1):
-    url = f"https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={afterBlock}&endblock=99999999&page=1&offset=10000&sort=asc&apikey={API_TOKEN}"
+def apiFunction(address = ADDRESS, tx=TX, afterBlock=0, beforeBlock=99999999,processed=None, depth=1):
+    url = f"https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={afterBlock}&endblock={beforeBlock}&page=1&offset=1000&sort=asc&apikey={API_TOKEN}"
     # print(depth,processed)
 #     print(url)
     if depth > 2: return []
@@ -74,14 +81,15 @@ def apiFunction(address = ADDRESS, tx=TX, afterBlock=0,processed=None, depth=1):
             }
         }
         if not tx=='none':
-            next =apiFunction(correct_element['to]'],None,correct_element['blockNumber'],1,1)
+            correct_element = list(filter(lambda e: e['hash']==tx, data['result']))[0]
+            next =apiFunction(correct_element['attributes']['to]'],None,correct_element['attributes']['blockNumber'],beforeBlock,1,1)
             correct_element.setdefault('children',[]).append(next)
         else:
             # processed['children'] = findFirstChildren(address, 10)
             # correct_elements = list(filter(lambda e: int(e['timeStamp'])>=last_week and e['from']==address, data['result']))[0:10]
             # print(correct_elements)
-            for correct_element in findFirstChildren(address, 5):
-                next = apiFunction(correct_element['attributes']['destination'],None,None,1,1)
+            for correct_element in findFirstChildren(address, 3):
+                next = apiFunction(correct_element['attributes']['destination'],None,correct_element['attributes']['blockNumber'],beforeBlock,1,1)
                 if next:
                     correct_element.setdefault('children',[]).append(next)
                     # if 'children' in correct_element.keys():
@@ -108,7 +116,7 @@ def apiFunction(address = ADDRESS, tx=TX, afterBlock=0,processed=None, depth=1):
         nextAddress = element['to']
         contract = confirmContractName(address)
         tmpProcessed = {
-            'name': nextAddress[0:6],
+            'name': address[0:6],
             'attributes': {
             'value': f"{round(int(element['value']) / 1e18,4)} ETH",
             'timestamp': datetime.fromtimestamp(int(element['timeStamp'])).strftime('%Y-%m-%d %H:%M:%S'),
@@ -120,8 +128,8 @@ def apiFunction(address = ADDRESS, tx=TX, afterBlock=0,processed=None, depth=1):
             }
         }
         x=tmpProcessed
-        for element in findFirstChildren(address, 3):
-            next = apiFunction(element['attributes']['destination'],None,None, 1,depth)
+        for element in findFirstChildren(address, 2):
+            next = apiFunction(element['attributes']['destination'],None,element['attributes']['blockNumber'],beforeBlock, 1,depth)
             if not contract and next:
                 element.setdefault('children',[]).append(next)
                 tmpProcessed.setdefault('children',[]).append(element)
@@ -183,8 +191,11 @@ class TokenFlows(APIView):
     def get(self, request):
         tx = request.GET.get('tx')
         address = request.GET.get('address').lower()
-        data = apiFunction(address,tx)
-        print(json.dumps(data, indent =2))
+        start = request.GET.get('startDate')
+        end = request.GET.get('endDate')
+        (start_block, end_block) = getBlockByTimestamp(start,end)
+        data = apiFunction(address,tx,start_block,end_block)
+        # print(json.dumps(data, indent =2))
         return Response(data)
 
 # class TokenFlows(APIView):
