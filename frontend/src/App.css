@@ -11,6 +11,16 @@
 h1 {
   font-weight: 300;
 }
+button {
+  margin-top: .3em;
+  border: 0;
+  border-radius: .3em;
+  background-color: var(--accent-clr2);
+  color: black;
+  padding: 3px;
+  font-weight: 300;
+  cursor: pointer;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -47,8 +57,12 @@ a {
   color: white;
 }
 .title {
-  /* margin-left: 47%; */
+  margin-right: 7%;
   font-weight: 700;
+  border: 1px solid white;
+  box-shadow: 2px 2px white;
+  border-radius: .5em;
+  padding: .5em;
 }
 
 .App-link {
@@ -68,32 +82,55 @@ a {
 --accent-clr2: rgb(149, 255, 172);
 --light-clr2:rgb(255, 255, 255)
 }
-.node{
+.edge-foreignobject{
   border-radius: .5em;
-  background-color: rgb(255, 255, 255);
-  margin-right: 8em;
-  margin-left: 4em;
+  background-color: rgba(0, 0, 0, 0.757);
   padding: .5em;
   text-align: left;
   transition: .3s;
+  border: 1px solid var(--accent-clr2);
+  box-shadow: 2px 2px var(--accent-clr2);
+  position: relative;
+  bottom: 0;
+  right: 0;
 }
-.node:hover {
-  box-shadow: 5px 5px var(--accent-clr);  
+#treeWrapper .react-flow__node {
+  color: white;
+  overflow-wrap: break-word;
+  border: 1px solid var(--accent-clr2);
+  box-shadow: 2px 2px var(--accent-clr2);
+  border-radius: .5em;
+  background-color: rgba(0, 0, 0, 0.757);
+  transition: .3s !important;
+}
+#treeWrapper .react-flow__node:hover, .edge-foreignobject:hover {
+  box-shadow: 4px 4px var(--accent-clr2);  
 }
 
+.edge-foreignobject {
+  background-color: white;
+  padding: 1em;
+  font-size: .6em;
+}
+#treeWrapper .edge-foreignobject p {
+  margin-bottom: .2em;
+  text-align: left;
+}
 circle {
   stroke-width: 1px !important;
+}
+.toolTip a {
+  color: white;
+}
+.toolTip a:hover {
+  color: rgb(131, 255, 195);
 }
 .toolTip {
   position: relative;
   display: inline-block;
-  margin-right: 9em;
   z-index: 999;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  /* background-color: white; */
   padding: .3em;
   border-radius: .5em;
-  /* box-shadow: 5px 5px var(--accent-clr2); */
   transition: .3s;
 }
 .tooltiptext {
@@ -110,14 +147,36 @@ circle {
   /* Position the tooltip */
   position: absolute;
   z-index: 99;
-  top: 80%;
-  left: 60%;
-  margin-left: -120px;
+  left: -100%; 
+}
+.toolTipE {
+  position: relative;
+  display: inline-block;
+  z-index: 999;
+  transition: .3s;
+  margin-bottom: .3em;
+}
+
+.tooltiptextE {
+  overflow-wrap: break-word;
+  /* inline-size: 200px; */
+  visibility: hidden;
+  width: 95px;
+  background-color: rgba(0, 0, 0, 0.616);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: .7em;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 99;
+  left: -10%; 
 }
 foreignObject {
   margin-right: 3em;
 }
-.toolTip:hover .tooltiptext {
+.toolTip:hover .tooltiptext, .toolTipE:hover .tooltiptextE {
   visibility: visible;
 }
   
@@ -139,10 +198,19 @@ circle {
   filter: drop-shadow(0px 0px 10px var(--accent-clr2));
 }
 #treeWrapper {
-  background-color: rgb(218, 252, 240);
+  background-color: rgba(16, 26, 23, 0.871);
+  backdrop-filter: blur(3px);
   margin: auto;
   margin-top: 3em;
   border-radius: 2em;
+  position: relative;
+}
+#treeWrapper .controls {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 10;
+  font-size: 12px;
 }
 svg.rd3dag-svg {
   border-radius: 2em;
@@ -159,22 +227,20 @@ margin-bottom: 0;
 .alert {
   margin: 2em auto;
   width: 25em;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
   background-color: #f8d7da6c;
 }
 .card {
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(3px);
   background-color: #0000006c;
   color: white;
 }
 .card-title {
   font-size: 2em;
-  font-weight: 100;
+  font-weight: 300;
 }
 .datepicker-btn {
-  /* padding: 1em; */
-  /* margin-right: 1em; */
-  /* width: em; */
+  width: 50%;
 }
 #collapse-form input {
   border: 1px solid black;
@@ -240,6 +306,14 @@ div.daterangepicker {
 }
 .track-btn {
   border-radius: .3em !important;
+}
+.search-btn:hover {
+  box-shadow: 2px 2px rgb(50, 50, 50);
+}
+.search-btn {
+  /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.677); */
+  box-shadow: 2px 2px rgb(255, 255, 255);
+  font-weight: 700;
 }
 .row {
   justify-content: center;

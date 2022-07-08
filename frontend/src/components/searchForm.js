@@ -67,6 +67,7 @@ class SearchForm extends React.Component {
             // value={this.state.date}
             onEvent={this.handlePickerEvent}
             >
+            
             <Button variant="outline-light"className="datepicker-btn">Choose date</Button>
             </DateRangePicker>
             <Form.Control
@@ -78,16 +79,7 @@ class SearchForm extends React.Component {
             value={this.state.address}
             onChange={this.handleInputChange}
             />
-            <Form.Control
-            name="tx"
-            type="search"
-            placeholder="Starting Transaction (optional)"
-            className="me-2"
-            aria-label="Starting Transaction"
-            value={this.state.tx}
-            onChange={this.handleInputChange}
-            />
-            <Button type = "submit" bg="light" variant="outline-light">Search</Button>
+            <Button className="search-btn" type = "submit" bg="light" variant="outline-light">Search</Button>
         </Form>
         </div>         
         </Collapse>

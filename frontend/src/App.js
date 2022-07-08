@@ -61,7 +61,7 @@ function Data(props) {
         <Card>
           <Card.Body>
           <Card.Title>
-            Token-flows allows you to track the flow of cryptocurrency on Ethereum from one wallet to another. <b>Click 'Track tokens' to get started!</b></Card.Title>
+            Kash-flows allows you to track the flow of cryptocurrency on Ethereum from one wallet to another. <b>Click 'Track tokens' to get started!</b></Card.Title>
             </Card.Body>
         </Card>
       </Col>
@@ -79,6 +79,7 @@ export async function getContractName(contractAddress) {
 function App() {
   const [data, setData] = useState('')
   const childToParent = (data) => {
+    console.log(data)
     setData(data)
   }
   // console.log(data)
@@ -92,7 +93,7 @@ function App() {
       <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid className="">
         <SearchForm childToParent={childToParent}/>
-          <Navbar.Brand className="title" href="#">Token-flows</Navbar.Brand>
+          <Navbar.Brand className="title" href="#">Kash-flows</Navbar.Brand>
           <Navbar.Text href="#">About</Navbar.Text>
         </Container>   
       </Navbar>
