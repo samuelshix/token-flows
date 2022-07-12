@@ -32,7 +32,7 @@ function Data(props) {
         tx='none'
       }
       console.log(startDate, endDate)
-      axios.get(`http://localhost:8000/api/?address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}`)
+      axios.get(`https://kashflows.herokuapp.com/api/?address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}`)
       // , {
       //   headers: {
       //     'Access-Control-Allow-Origin': 'http://localhost:3000',
