@@ -1,13 +1,8 @@
-from tracemalloc import start
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
-import json
-from django.http import JsonResponse
 from datetime import datetime
 import datetime as dt 
-import asyncio
 import random
 
 today = dt.datetime.now()
