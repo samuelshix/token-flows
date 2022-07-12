@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import About from './components/about';
 import './App.css';
 import {OrgChartTree} from './components/chart'
 import React, { useEffect, useState } from "react"
@@ -11,7 +12,6 @@ import Card from 'react-bootstrap/Card';
 import SearchForm from './components/searchForm';
 import axios from 'axios';
 import LoadingSpinner from './components/loadingSpinner';
-
 function Data(props) {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +31,7 @@ function Data(props) {
       if(!tx) {
         tx='none'
       }
+      console.log(startDate, endDate)
       axios.get(`http://localhost:8000/api/?address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}`)
       // , {
       //   headers: {
@@ -50,19 +51,19 @@ function Data(props) {
       djangoCall(props.address, props.tx, props.startDate, props.endDate)
     }
   }, [props]);
+  
   const [chartData, setChartData] = useState({}) 
   return (
     <div>
-    <Container fluid>
-    {hasError && <Alert key='danger' variant='danger'>Error: incorrect address format</Alert>}
     {isLoading && <LoadingSpinner/>}
+    <Container fluid className = "aboutSummary">
+    {hasError && <Alert key='danger' variant='danger'>Error: incorrect address format</Alert>}
     <Row>
       <Col md={5}>
         <Card>
           <Card.Body>
-          <Card.Title>
-            Kash-flows allows you to track the flow of cryptocurrency on Ethereum from one wallet to another. <b>Click 'Track tokens' to get started!</b></Card.Title>
-            </Card.Body>
+            Kash-flows allows you to track the flow of cryptocurrency from one wallet to another. For more information on how to use this tool, visit 'About'.<br/><hr/><b>Click 'Track tokens' to get started!</b>
+          </Card.Body>
         </Card>
       </Col>
     </Row>
@@ -72,45 +73,29 @@ function Data(props) {
   )
 }
 
-export async function getContractName(contractAddress) {
-  // "https://api.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=YourApiKeyToken"
-}
-
-function App() {
+function App({about}) {
   const [data, setData] = useState('')
   const childToParent = (data) => {
-    console.log(data)
     setData(data)
   }
-  // console.log(data)
-  // const displayData = (data) => {
-
-  // }
-  // console.log(data)
   
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid className="">
         <SearchForm childToParent={childToParent}/>
-          <Navbar.Brand className="title" href="#">Kash-flows</Navbar.Brand>
-          <Navbar.Text href="#">About</Navbar.Text>
+        <Navbar.Brand href=".aboutSummary" className="title">Kash-flows</Navbar.Brand>
+        <Navbar.Text><a href="#aboutNav">About</a></Navbar.Text>
         </Container>   
       </Navbar>
-      {/* <Navbar bg="primary" variant="dark"> */}
-      {/* <Container fluid>
-        <Row>
-          <Col></Col>
-          <Col md={8}>
-          </Col>
-          <Col></Col>
-        </Row>
-        </Container> */}
-      {/* </Navbar> */}
-
-      {/* <h2>Track Tokens:</h2> */}
-      {/* <SearchForm childToParent={childToParent}/> */}
       <Data address={data.address} tx={data.tx} startDate={data.startDate} endDate={data.endDate}/>
+      <div id="aboutNav">-</div>
+      <About/>
+      <Card className='footer'>
+        <Card.Body>
+        Developed by<a href='https://www.intellabridge.com' target='_blank'> Kash Inc.</a>
+        </Card.Body>
+      </Card>
     </div>
   );
 }

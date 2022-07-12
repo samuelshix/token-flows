@@ -1,6 +1,7 @@
-import { Position, Handle } from 'react-flow-renderer';
+import { Position, Handle, useStore } from 'react-flow-renderer';
 import React, { memo } from 'react';
 // const handleStyle = { left: 10 };
+// const edges = useStore((state) => state.edges);
 
 export default memo(({data, isConnectable}) => {
     return(
@@ -17,11 +18,6 @@ export default memo(({data, isConnectable}) => {
           </div>
           
         </div>
-        <Handle type="source" position='right' id="a"         isConnectable={isConnectable}
-        />
-        <Handle type="source" position='left' id="a" 
-        isConnectable={isConnectable}
-        />
         <Handle type="source" position='bottom' id="b"
         style={{ display: 'none' }}
         isConnectable={isConnectable}

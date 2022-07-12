@@ -8,7 +8,10 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 import LoadingSpinner from './loadingSpinner';
 class SearchForm extends React.Component {
     constructor(props) {
+        const nowTimestamp = Date.now()
         super(props);
+        this.defaultEnd = (new Date(nowTimestamp)).toLocaleDateString()
+        this.defaultStart = (new Date(nowTimestamp  - 604800000)).toLocaleDateString()
         this.state = {
             address:'',
             tx: '',
@@ -60,16 +63,21 @@ class SearchForm extends React.Component {
             <Collapse in={open}>       
             <div id="collapse-form-1">
             <Form onSubmit={this.onFormSubmit} className="d-flex flex-column" id="collapse-form">
-            <DateRangePicker 
-            initialSettings={{ startDate: '6/23/2022', endDate: '6/30/2022' }}
-            maxSpan="days: 7"
-            name="date"
-            // value={this.state.date}
-            onEvent={this.handlePickerEvent}
-            >
-            
-            <Button variant="outline-light"className="datepicker-btn">Choose date</Button>
-            </DateRangePicker>
+            <div className="date-range">
+                <DateRangePicker 
+                initialSettings={{ startDate: this.defaultStart, endDate: this.defaultEnd, maxSpan:{days:7}}}
+                name="date"
+                // value={this.state.date}
+                onEvent={this.handlePickerEvent}
+                >
+                
+                <Button variant="outline-light"className="datepicker-btn">Choose date</Button>
+                </DateRangePicker>
+                {this.state.startDate &&
+                <p>{`${this.defaultStart} | 
+                ${this.defaultEnd}`}</p>
+                }
+            </div>
             <Form.Control
             name="address"
             type="search"
