@@ -1,6 +1,7 @@
 {
   "name": "token-flows-1",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "engines": {
     "node": "16.15.1",
