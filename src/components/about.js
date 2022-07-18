@@ -18,7 +18,7 @@ const About = () => {
                 <br></br>
                 <b>Limiting: </b>
                 <p>Due to API rate limiting and the large amount of data processing for exponentially larger trees of token flows, loading may take some time, and the number of transactions per address (the width of the tree) as well as how deeply the query will explore (the height of the tree) is limited. </p>
-                <hr/><b>Click 'Kash-flows', then 'Track tokens' to get started!</b>
+                <hr/><b>Click 'Track tokens' to get started!</b>
             </Card.Body>
           </Card>
         </Col>
