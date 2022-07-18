@@ -4,3 +4,10 @@ node_modules
 *.ipynb
 test.py
 webpack.config.js
+package-lock.json
+Procfile
+Pipfile
+.npmrc
+.env
+db.sqlite3
+
