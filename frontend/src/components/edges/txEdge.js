@@ -58,6 +58,7 @@ export default function TxEdge({
     transactions.push(
       <div
         className="innerTX"
+        requiredExtensions="http://www.w3.org/1999/xhtml"
       >
         <div className='toolTipE' htmlFor="text">
           <a target="_blank" href={"https://etherscan.io/tx/" + data.txHash}>
@@ -125,6 +126,7 @@ export default function TxEdge({
               }}>Copy</button>
             </div>
           </div>
+          {/* <p>TX: {data.txHash.slice(0,10)}</p> */}
           {d}
           <p><b>Time: </b>
             {length > 1 && <>{`${data[0].timestamp.slice(0, 10)}—`}<br></br> {`${data[length - 1].timestamp.slice(0, 10)}`}</>}

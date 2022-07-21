@@ -276,6 +276,8 @@ export const OrgChartTree = ({ chartData }) => {
   const updateZIndex = () => {
     // var nodes = d3.selectAll('svg .react-flow__node')
     var txs = d3.selectAll('.edge-foreignobject, .txGroup, g path')
+    // if (txs.length > 1) {
+    // console.log(nodes)
     var temp_max = 0;
     var zOrder = txs[0].map(cv => {
       if (cv.localName === 'path') {
@@ -331,9 +333,6 @@ export const OrgChartTree = ({ chartData }) => {
   window.addEventListener('load', () => {
     updateZIndex();
   })
-  const onInit = (ReactFlowInstance) => {
-    ReactFlowInstance.fitView();
-  }
   return (
     <div id="treeWrapper" style={{ width: '100%', height: '90vh' }}>
       <ReactFlow
@@ -344,10 +343,8 @@ export const OrgChartTree = ({ chartData }) => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         connectionLineType={ConnectionLineType.SmoothStep}
-        onInit={onInit}
         fitView
       >
-        <h1 className="diagram-title">Viewport</h1>
         {nodes.length === 0 && <p className="alert">Error: No token transfer transactions found within this period for the address specified. Please check your timeframe and address and try again!</p>}
         <MiniMap />
         <Controls />
