@@ -5,14 +5,17 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { LinkContainer } from 'react-router-bootstrap';
-
+import Footer from './footer';
 const About = () => {
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid className="">
           <LinkContainer to="/"><Navbar.Brand href=".aboutSummary" className="title">kash-flows</Navbar.Brand></LinkContainer>
-          <LinkContainer to="/app"><Button className="btn-outline-dark"><a href="#aboutNav">App</a></Button></LinkContainer>
+          <div style={{ alignItems: "center", display: "flex" }}>
+            <a href="https://github.com/samuelshix/token-flows" target="_blank"><i className="fa fa-github" style={{ fontSize: "30px", color: "white", marginRight: ".5em" }}></i></a>
+            <LinkContainer to="/app"><Button className="btn-outline-dark"><a href="#aboutNav">App</a></Button></LinkContainer>
+          </div>
         </Container>
       </Navbar>
       <Row id="about">
@@ -53,11 +56,7 @@ const About = () => {
           </Card>
         </Col>
       </Row>
-      <Card className='footer'>
-        <Card.Body>
-          <b>Developed by</b><a href='https://www.intellabridge.com' target='_blank'> Kash Inc.</a>
-        </Card.Body>
-      </Card>
+      <Footer />
     </>
   )
 }

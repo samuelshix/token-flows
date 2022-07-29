@@ -57,7 +57,7 @@ class SearchForm extends React.Component {
             onClick={() => setOpen(!open)}
             aria-controls="collapse-form-1"
             aria-expanded={open}
-            variant="outline-light"
+            variant="outline-dark"
             className="track-btn"
           >Track tokens
           </Button>

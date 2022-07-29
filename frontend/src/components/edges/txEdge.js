@@ -112,7 +112,7 @@ export default function TxEdge({
         id={id}
         style={!open ? style : {}}
       >
-        <div>
+        <div style={{ cursor: length > 1 ? "pointer" : "" }}>
           <div className='toolTipE' htmlFor="text">
             <a target="_blank" onMouseOver={() => { console.log() }} href={"https://etherscan.io/tx/" + data[0].txHash}>
               <b>TX:</b> {data[0].txHash.slice(0, 10)}

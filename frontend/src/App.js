@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import SearchForm from './components/searchForm';
 import { LinkContainer } from 'react-router-bootstrap';
 import Data from './components/data';
-
+import Footer from './components/footer';
 function App({ about }) {
   const [data, setData] = useState('')
   const childToParent = (data) => {
@@ -25,11 +25,8 @@ function App({ about }) {
         </Container>
       </Navbar>
       <Data address={data.address} tx={data.tx} startDate={data.startDate} endDate={data.endDate} />
-      <Card className='footer'>
-        <Card.Body>
-          <b>Developed by</b><a href='https://www.intellabridge.com' target='_blank'> Kash Inc.</a>
-        </Card.Body>
-      </Card>
+      <Footer />
+
     </div>
   );
 }

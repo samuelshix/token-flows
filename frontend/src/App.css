@@ -23,15 +23,15 @@ button {
   cursor: pointer;
 }
 
-div .btn-outline-dark {
-  border-color: white !important;
+div .btn-outline-dark,
+.btn-outline-dark {
   background: none !important;
-  border: 1px solid white;
-  color: white !important;
+  border: 1px solid var(--accent-clr2);
+  color: var(--accent-clr2) !important;
 }
 
 .btn-outline-dark:hover {
-  background-color: white !important;
+  background-color: var(--accent-clr2) !important;
   color: black !important;
 }
 
@@ -40,7 +40,7 @@ div .btn-outline-dark {
 }
 
 .btn-outline-dark a {
-  color: white;
+  color: var(--accent-clr2);
   font-weight: 700;
 }
 
@@ -271,7 +271,7 @@ circle {
 }
 
 #treeWrapper {
-  background-color: rgba(0, 0, 0, 0.787);
+  background-color: rgba(0, 0, 0, 0.664);
   backdrop-filter: blur(3px);
   margin-top: 3.8em !important;
   margin: auto;
@@ -332,10 +332,13 @@ p.alert {
   grid-column-end: span 2;
 }
 
-.about-grid i {
-  border: 1px solid white;
+.about-grid i,
+.footer button {
+  background-color: var(--accent-clr2);
+  color: black;
   border-radius: .5em;
   padding: 1em;
+  font-weight: 500;
 }
 
 .about-grid>* {
@@ -432,10 +435,6 @@ div.daterangepicker {
   background-color: #282c34;
 }
 
-.track-btn {
-  border-radius: .3em !important;
-}
-
 .search-btn:hover {
   box-shadow: 2px 2px rgb(50, 50, 50);
 }
@@ -474,13 +473,30 @@ div.daterangepicker {
   padding: 1em !important;
   background-color: black;
   backdrop-filter: blur(3px);
-  color: grey;
+  color: white;
+}
 
+.footer button {
+  padding: .5em;
+  font-size: .8em;
+  margin-top: 1em;
+}
+
+.ethAddr {
+  color: var(--accent-clr2);
+  font-weight: 300;
+  margin-top: .3em;
 }
 
 .footer a {
   color: white;
-  font-weight: 800;
+  font-weight: 500;
+  text-decoration: dotted underline;
+}
+
+.footer p {
+  margin-bottom: 0;
+
 }
 
 .aboutSummary {
@@ -528,6 +544,12 @@ div.daterangepicker {
 
 #aboutNav {
   margin-top: 10em;
+}
+
+@media screen and (min-width: 1250px) {
+  #about .col-md-8 {
+    width: 45% !important;
+  }
 }
 
 @media screen and (max-width: 638px) {
