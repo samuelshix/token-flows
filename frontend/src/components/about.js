@@ -13,7 +13,7 @@ const About = () => {
         <Container fluid className="">
           <LinkContainer to="/"><Navbar.Brand href=".aboutSummary" className="title">kash-flows</Navbar.Brand></LinkContainer>
           <div style={{ alignItems: "center", display: "flex" }}>
-            <a href="https://github.com/samuelshix/token-flows" target="_blank"><i className="fa fa-github" style={{ fontSize: "30px", color: "white", marginRight: ".5em" }}></i></a>
+            <a href="https://github.com/samuelshix/token-flows" target="_blank"><i className="fa fa-github" style={{ fontSize: "30px", marginRight: ".5em" }}></i></a>
             <LinkContainer to="/app"><Button className="btn-outline-dark"><a href="#aboutNav">App</a></Button></LinkContainer>
           </div>
         </Container>

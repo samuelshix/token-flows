@@ -233,7 +233,12 @@ var dagreGraph = blankDagreGraph;
 
 const nodeWidth = 400;
 const nodeHeight = 300;
-
+const copyAddress = (event, node) => {
+  node.onClick = () => {
+    navigator.clipboard.writeText(node.id)
+    console.log(node.id)
+  }
+}
 const getLayoutedElements = (nodes, edges, dagreGraph, max, direction = 'TB') => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
@@ -344,6 +349,7 @@ export const OrgChartTree = ({ chartData }) => {
         onEdgesChange={onEdgesChange}
         connectionLineType={ConnectionLineType.SmoothStep}
         fitView
+        onNodeClick={copyAddress}
       >
         {nodes.length === 0 && <p className="alert">Error: No token transfer transactions found within this period for the address specified. Please check your timeframe and address and try again!</p>}
         <MiniMap />
