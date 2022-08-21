@@ -57,6 +57,7 @@ export default function TxEdge({
     }
     transactions.push(
       <div
+        key={i}
         className="innerTX"
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >
@@ -83,15 +84,17 @@ export default function TxEdge({
     }
   }
 
-  // scale trasaction information window based on number of assets
+  // scale transaction information window based on number of assets
   const foreignObjectHeight = 100 + Object.keys(assets).length * 21;
   const foreignObjectWidth = 190;
   var d = []
+  var k = 0
   for (var asset in assets) {
+    k++
     if (asset === 'ETH') {
       width = scaleNode(assets[asset]);
     }
-    d.push(<p><b>{asset}</b> {assets[asset].toLocaleString("en-US")}</p>)
+    d.push(<p key={k}><b>{asset}</b> {assets[asset].toLocaleString("en-US")}</p>)
   }
   return (
     <>
