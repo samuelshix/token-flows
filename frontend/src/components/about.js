@@ -11,7 +11,7 @@ const About = () => {
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid className="">
-          <LinkContainer to="/"><Navbar.Brand href=".aboutSummary" className="title">kash-flows</Navbar.Brand></LinkContainer>
+          <LinkContainer to="/"><Navbar.Brand href=".aboutSummary" className="title">token-flows</Navbar.Brand></LinkContainer>
           <div style={{ alignItems: "center", display: "flex" }}>
             <a href="https://github.com/samuelshix/token-flows" target="_blank"><i className="fa fa-github" style={{ fontSize: "30px", marginRight: ".5em" }}></i></a>
             <LinkContainer to="/app"><Button className="btn-outline-dark">App</Button></LinkContainer>
@@ -28,7 +28,7 @@ const About = () => {
               <div className="about-grid">
                 <div className="full">
                   <h1>About</h1>
-                  <p>Kash-flows allows you to visualize the flow of Ethereum tokens from one wallet to another, as well as from transactions from subsequent wallets.</p>
+                  <p>Token-flows allows you to visualize the flow of Ethereum tokens from one wallet to another, as well as from transactions from subsequent wallets.</p>
                 </div>
                 <div className="full">
                   <h5>How to Use</h5>

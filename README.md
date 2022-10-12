@@ -1,6 +1,6 @@
 # About
 
-Kash-flows allows you to visualize the flow of ERC-20 (Ethereum-based) tokens from one wallet to another on the Ethereum blockchain, as well as transactions following from subsequent recipients. The width of the lines denoting transactions is proportional to the relative value of each transaction.
+Token-flows allows you to visualize the flow of ERC-20 (Ethereum-based) tokens from one wallet to another on the Ethereum blockchain, as well as transactions following from subsequent recipients. The width of the lines denoting transactions is proportional to the relative value of each transaction.
 
 ### How to Use
 

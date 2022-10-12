@@ -112,6 +112,7 @@ export const OrgChartTree = ({ chartData }) => {
   })
   return (
     <div id="treeWrapper" style={{ width: '100%', height: '90vh' }}>
+      <p className="info">Click and drag a node (the green boxes) to reposition it!</p>
       <ReactFlow
         nodes={nodes}
         edges={edges}

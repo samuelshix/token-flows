@@ -20,7 +20,7 @@ function App({ about }) {
     <div className="App">
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid className="">
-          <LinkContainer to="/"><Navbar.Brand href=".aboutSummary" className="title">kash-flows</Navbar.Brand></LinkContainer>
+          <LinkContainer to="/"><Navbar.Brand href=".aboutSummary" className="title">Token Flows</Navbar.Brand></LinkContainer>
           <SearchForm childToParent={childToParent} />
         </Container>
       </Navbar>

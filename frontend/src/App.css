@@ -311,6 +311,14 @@ body {
   margin-bottom: 0;
 }
 
+p.info {
+  text-align: left;
+  color: white;
+  margin-bottom: 0 !important;
+  padding-top: 1em;
+  padding-left: 1em;
+}
+
 .alert {
   margin: 2em auto;
   width: 25em;
