@@ -9,6 +9,8 @@ today = dt.datetime.now()
 d = dt.timedelta(days=7)
 last_week = int((today - d).timestamp())
 
+# hide keys
+# add estimated time to finish
 API_TOKENS = [
     "V9MH4DCQ3BSHNAAQ6PDW5KNTGSXVIVZUQ3",
     "5WUNMC9GI3HNWSC5NTSH5FQQCPVRVM4RN2",
@@ -43,6 +45,9 @@ def confirmContractName(address):
 # Recursively travels down a tree of transactions starting from a single address, while adding information to
 # persistent dictionary 'processed', containing the node and edges information. Recursion is limited by the
 # depth parameter as well as number of transactions processed per address.
+
+# concurrent api calls using asyncio
+# split big functions into smaller ones
 def apiFn(address=ADDRESS, afterBlock=0, beforeBlock=99999999, processed=None, depth=1):
     url = f"https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={afterBlock}&endblock={beforeBlock}&page=1&offset=5000&sort=asc&apikey={random.choice(API_TOKENS)}"
     print(url)

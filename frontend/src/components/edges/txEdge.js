@@ -62,7 +62,7 @@ export default function TxEdge({
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >
         <div className='toolTipE' htmlFor="text">
-          <a target="_blank" href={"https://etherscan.io/tx/" + data.txHash}>
+          <a target="_blank" href={"https://etherscan.io/tx/" + transaction.txHash}>
             <b>TX:</b> {transaction.txHash.slice(0, 10)}
           </a>
           <div className='tooltiptextE'>
@@ -72,7 +72,7 @@ export default function TxEdge({
             }}>Copy</button>
           </div>
         </div>
-        <p><b>Value:</b> {`${transaction.value.toLocaleString("en-US")} ${token}`}</p>
+        <p>{`${transaction.value.toLocaleString("en-US")}`}<b> {token}</b></p>
         <p><b>Time:</b> {transaction.timestamp}</p>
       </div>
     );
@@ -94,7 +94,7 @@ export default function TxEdge({
     if (asset === 'ETH') {
       width = scaleNode(assets[asset]);
     }
-    d.push(<p key={k}><b>{asset}</b> {assets[asset].toLocaleString("en-US")}</p>)
+    d.push(<p key={k}>{assets[asset].toLocaleString("en-US")}<b> {asset}</b></p>)
   }
   return (
     <>
@@ -120,7 +120,7 @@ export default function TxEdge({
             <a target="_blank" onMouseOver={() => { console.log() }} href={"https://etherscan.io/tx/" + data[0].txHash}>
               <b>TX:</b> {data[0].txHash.slice(0, 10)}
             </a>
-            {length > 1 && <><br></br><b>{` ... ${data.length - 1} more`}</b></>}
+            {length > 1 && <><br></br><b>{` ... ${data.length} more`}</b></>}
 
             <div className='tooltiptextE'>
               <p>{data[0].txHash}</p>
