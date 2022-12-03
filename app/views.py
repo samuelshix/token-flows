@@ -20,6 +20,9 @@ API_TOKENS = [
     "JV2RB3EE71A3DVBTUMYM4NZQFX4AKQ1UT1",
 ]
 
+HELIUS_TOKEN = "6674cc09-55bd-4ac9-a44d-bc712dbc3f6f"
+LAMPORTS_PER_SOL = 1000000000
+
 pos = {"x": 0, "y": 0}
 
 # Returns a tuple of start and end block numbers.
@@ -191,15 +194,166 @@ def apiFnERC20(
         )
     return processed
 
+def solApiFn(address=ADDRESS, start=0, processed=None, depth=1):
+    url = f"https://public-api.solscan.io/account/solTransfers?account={address}&fromTime={start}&limit=10&offset=0"
+    data = requests.get(url).json().filter(lambda e: e["lamport"] > 10000000 )[0:5]
+    if depth == 3:
+        return processed
+    if processed == None:
+        processed = {"nodes": [], "edges": []}
+    for element in data["data"]:
+        if element["dst"] not in [i["id"] for i in processed["nodes"]]:
+            processed["nodes"].append(
+                {
+                    "id": element["dst"],
+                    # "type": "user",
+                    "data": {
+                        "label": "Wallet: " + element["dst"],
+                        "ContractName": confirmContractName(element["dst"]),
+                    },
+                    "position": pos,
+                }
+            )
+        if element["src"] not in [i["id"] for i in processed["nodes"]]:
+            processed["nodes"].append(
+                {
+                    "id": element["from"],
+                    # "type": "user",
+                    "data": {
+                        "label": "Wallet: " + element["from"],
+                        "ContractName": confirmContractName(element["from"]),
+                    },
+                    "position": pos,
+                }
+            )
+        id = f"{element['src']}-{element['dst']}"
+        current_edge = list(filter(lambda e: e["id"] == id, processed["edges"]))
+        if not current_edge:
+            currentEdge = {
+                "id": id,
+                "source": element["src"],
+                "target": element["dst"],
+                "animated": "true",
+                "type": "tx",
+                "data": [
+                    {
+                        "value": round(int(element["lamport"]) / LAMPORTS_PER_SOL, 2),
+                        "timestamp": datetime.fromtimestamp(
+                            int(element["blockTime"])
+                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "txHash": element["txHash"],
+                        "token": "SOL",           
+                                 }
+                ]
+            }
+            processed["edges"].append(currentEdge)
+        else:
+            current_edge[0]["data"].append(
+                {
+                    "value": round(int(element["value"]) / 1e9, 2),
+                    "timestamp": datetime.fromtimestamp(
+                        int(element["timeStamp"])
+                    ).strftime("%Y-%m-%d %H:%M:%S"),
+                    "txHash": element["txHash"],
+                    "token": "SOL",
+                }
+            )
+        processed = solApiFn(
+            element["dst"], element["blockTime"], processed, depth + 1
+        )
+    return processed
+
+# check this
+def apiFnSPL(address=ADDRESS, start=0, processed=None, depth=1):
+    url = f"https://public-api.solscan.io/account/splTransfers?account={address}&fromTime={start}&limit=10&offset=0"
+    data = requests.get(url).json().filter(lambda e: e["lamport"] > 10000000 )[0:5]
+    data["result"] = list(
+        filter(lambda e: int(e["value"]) > 0 and e["from"] == address, data["result"])
+    )
+    if depth == 3:
+        return processed
+    if processed == None:
+        processed = {"nodes": [], "edges": []}
+    for element in data["data"]:
+        if element["dst"] not in [i["id"] for i in processed["nodes"]]:
+            processed["nodes"].append(
+                {
+                    "id": element["dst"],
+                    # "type": "user",
+                    "data": {
+                        "label": "Wallet: " + element["dst"],
+                        "ContractName": confirmContractName(element["dst"]),
+                    },
+                    "position": pos,
+                }
+            )
+        if element["src"] not in [i["id"] for i in processed["nodes"]]:
+            processed["nodes"].append(
+                {
+                    "id": element["from"],
+                    # "type": "user",
+                    "data": {
+                        "label": "Wallet: " + element["from"],
+                        "ContractName": confirmContractName(element["from"]),
+                    },
+                    "position": pos,
+                }
+            )
+        id = f"{element['src']}-{element['dst']}"
+        current_edge = list(filter(lambda e: e["id"] == id, processed["edges"]))
+        if not current_edge:
+            currentEdge = {
+                "id": id,
+                "source": element["src"],
+                "target": element["dst"],
+                "animated": "true",
+                "type": "tx",
+                "data": [
+                    {
+                        "value": round(int(element["lamport"]) / LAMPORTS_PER_SOL, 2),
+                        "timestamp": datetime.fromtimestamp(
+                            int(element["blockTime"])
+                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "txHash": element["txHash"],
+                    }
+                ]
+            }
+            processed["edges"].append(currentEdge)
+        else:
+            current_edge[0]["data"].append(
+                {
+                    "value": round(int(element["value"]) / 1e9, 2),
+                    "timestamp": datetime.fromtimestamp(
+                        int(element["timeStamp"])
+                    ).strftime("%Y-%m-%d %H:%M:%S"),
+                    "txHash": element["txHash"],
+                }
+            )
+        processed = apiFnSPL(
+            element["dst"], element["blockTime"], processed, depth + 1
+        )
+    return processed
+
+def apiFnEthereum(address, start_block, end_block):
+    eth_transfers = apiFn(address, start_block, end_block)
+    ethereum_transfers = apiFnERC20(address, start_block, end_block, eth_transfers)
+    return ethereum_transfers
+
+def apiFnSolana(address, start):
+    sol_transfers = solApiFn(address, start)
+    solana_transfers = apiFnSPL(address, start, sol_transfers)
 
 # Recieves user search form input via url params and runs the apiFn function to get ethereum transactions
 # and then the apiFnERC20 function to get ERC-20 token transactions to append to the graph.
 class TokenFlows(APIView):
     def get(self, request):
+        blockchain = request.GET.get("blockchain")
         address = request.GET.get("address").lower()
         start = request.GET.get("startDate")
         end = request.GET.get("endDate")
         (start_block, end_block) = getBlockByTimestamp(start, end)
-        eth_transfers = apiFn(address, start_block, end_block)
-        all_transfers = apiFnERC20(address, start_block, end_block, eth_transfers)
+        if blockchain == "ethereum":
+            apiFnEthereum(address, start_block, end_block)
+        elif blockchain == "solana":
+            all_transfers = apiFnSolana(address, start)
         return Response(all_transfers)
