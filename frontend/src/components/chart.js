@@ -111,22 +111,24 @@ export const OrgChartTree = ({ chartData }) => {
     updateZIndex();
   })
   return (
-    <div id="treeWrapper" style={{ width: '100%', height: '90vh' }}>
-      <p className="info">Click and drag a node (the green boxes) to reposition it!</p>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        edgeTypes={edgeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        connectionLineType={ConnectionLineType.SmoothStep}
-        fitView
-        onNodeClick={copyAddress}
-      >
-        {nodes.length === 0 && <p className="alert">Error: No token transfer transactions found within this period for the address specified. Please check your timeframe and address and try again!</p>}
-        <MiniMap />
-        <Controls />
-      </ReactFlow>
+    <div id="treeWrapper">
+      <div className="bg-filter" style={{ width: '100%', height: '90vh' }}>
+        <p className="info">Click and drag a node (the green boxes) to reposition it!</p>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          connectionLineType={ConnectionLineType.SmoothStep}
+          fitView
+          onNodeClick={copyAddress}
+        >
+          {nodes.length === 0 && <p className="alert">Error: No token transfer transactions found within this period for the address specified. Please check your timeframe and address and try again!</p>}
+          <MiniMap />
+          <Controls />
+        </ReactFlow>
+      </div>
     </div>
   );
 }

@@ -6,16 +6,16 @@ import LoadingSpinner from './loadingSpinner';
 function Data(props) {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
+    console.log(props)
     useEffect(() => {
-        const djangoCall = async (address, tx, startDate, endDate) => {
+        const djangoCall = async (address, tx, startDate, endDate, blockchain) => {
             setIsLoading(true);
             setHasError(false);
             if (!tx) {
                 tx = 'none';
             }
             // console.log(startDate, endDate)
-            axios.get(`https://kashflows.herokuapp.com/api/?address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}/`)
+            axios.get(`https://kashflows.herokuapp.com/api/?blockchain=${blockchain}&address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}/`)
                 .then(res => {
                     // console.log(res.data)
                     setChartData(res.data);
@@ -26,9 +26,9 @@ function Data(props) {
                 })
         }
         if (props.address) {
-            djangoCall(props.address, props.tx, props.startDate, props.endDate);
+            djangoCall(props.address, props.tx, props.startDate, props.endDate, props.blockchain);
         }
-    }, [props]);
+    }, [props.tx]);
 
     const [chartData, setChartData] = useState({})
     return (

@@ -15,7 +15,6 @@ function App({ about }) {
   const childToParent = (data) => {
     setData(data)
   }
-
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark" expand="lg">
@@ -24,7 +23,7 @@ function App({ about }) {
           <SearchForm childToParent={childToParent} />
         </Container>
       </Navbar>
-      <Data address={data.address} tx={data.tx} startDate={data.startDate} endDate={data.endDate} />
+      <Data address={data.address} tx={data.tx} startDate={data.startDate} endDate={data.endDate} blockchain={data.blockchain} />
       <Footer />
 
     </div>
