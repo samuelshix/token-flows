@@ -15,7 +15,8 @@ function Data(props) {
                 tx = 'none';
             }
             // console.log(startDate, endDate)
-            axios.get(`https://kashflows.herokuapp.com/api/?blockchain=${blockchain}&address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}/`)
+            // axios.get(`https://kashflows.herokuapp.com/api/?blockchain=${blockchain}&address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}/`)
+            axios.get(`http://localhost:8000/api/?blockchain=${blockchain}&address=${address}&tx=${tx}&startDate=${startDate}&endDate=${endDate}/`)
                 .then(res => {
                     // console.log(res.data)
                     setChartData(res.data);
@@ -28,7 +29,7 @@ function Data(props) {
         if (props.address) {
             djangoCall(props.address, props.tx, props.startDate, props.endDate, props.blockchain);
         }
-    }, [props.tx]);
+    }, [props]);
 
     const [chartData, setChartData] = useState({})
     return (
